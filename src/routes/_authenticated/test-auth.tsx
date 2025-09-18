@@ -12,19 +12,15 @@ import {
   Code,
   Divider,
 } from "@mantine/core";
-import {
-  IconUser,
-  IconShield,
-  IconCheck,
-  IconX,
-} from "@tabler/icons-react";
+import { IconUser, IconShield, IconCheck, IconX } from "@tabler/icons-react";
+import { useAuth } from "../../auth/context";
 
 export const Route = createFileRoute("/_authenticated/test-auth")({
   component: TestAuthPage,
 });
 
 function TestAuthPage() {
-  const { auth } = Route.useRouteContext();
+  const auth = useAuth();
   const { user, signout, isAuthenticated, isLoading } = auth;
 
   const authTests = [
@@ -155,7 +151,11 @@ function TestAuthPage() {
                     color={test.status ? "green" : "red"}
                     variant="light"
                     leftSection={
-                      test.status ? <IconCheck size={14} /> : <IconX size={14} />
+                      test.status ? (
+                        <IconCheck size={14} />
+                      ) : (
+                        <IconX size={14} />
+                      )
                     }
                   >
                     {test.status ? "Pass" : "Fail"}

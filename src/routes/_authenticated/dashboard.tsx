@@ -18,6 +18,7 @@ import {
   IconMail,
   IconCalendar,
 } from "@tabler/icons-react";
+import { useAuth } from "../../auth/context";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: DashboardPage,
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function DashboardPage() {
   const navigate = useNavigate();
-  const { auth } = Route.useRouteContext();
+  const auth = useAuth();
   const { user, signout } = auth;
 
   // User is guaranteed to exist due to the beforeLoad guard

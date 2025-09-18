@@ -8,7 +8,6 @@ import {
   Stack,
   Grid,
   Card,
-  Badge,
   Box,
   Center,
 } from "@mantine/core";

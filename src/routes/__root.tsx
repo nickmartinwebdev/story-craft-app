@@ -1,7 +1,7 @@
 import {
   HeadContent,
   Scripts,
-  createRootRouteWithContext,
+  createRootRoute,
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -10,33 +10,10 @@ import { TanstackDevtools } from "@tanstack/react-devtools";
 import Header from "../components/Header";
 import { MantineAppProvider } from "../components/MantineProvider";
 import { AuthProvider } from "../auth/context";
-import type { PublicUser } from "../db/schema";
 
 import appCss from "../styles.css?url";
 
-// Define the authentication context interface
-interface AuthState {
-  user: PublicUser | null;
-  token: string | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  signin: (email: string, password: string) => Promise<boolean>;
-  signup: (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-  ) => Promise<boolean>;
-  signout: () => void;
-  refreshUser: () => Promise<void>;
-}
-
-// Define the router context interface
-interface MyRouterContext {
-  auth: AuthState;
-}
-
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
@@ -58,7 +35,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
 
-  component: () => (
+  component: RootComponent,
+  shellComponent: RootDocument,
+});
+
+function RootComponent() {
+  return (
     <>
       <Outlet />
       <TanstackDevtools
@@ -73,10 +55,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         ]}
       />
     </>
-  ),
-
-  shellComponent: RootDocument,
-});
+  );
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
