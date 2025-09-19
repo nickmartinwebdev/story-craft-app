@@ -10,6 +10,7 @@ import { TanstackDevtools } from "@tanstack/react-devtools";
 import Header from "../components/Header";
 import { MantineAppProvider } from "../components/MantineProvider";
 import { AuthProvider } from "../auth/context";
+import { useLocation } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 
@@ -67,7 +68,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <MantineAppProvider>
           <AuthProvider>
-            <Header />
+            <ConditionalHeader />
             {children}
           </AuthProvider>
         </MantineAppProvider>
@@ -75,4 +76,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+
+function ConditionalHeader() {
+  const location = useLocation();
+  const isAuthenticatedRoute =
+    location.pathname.startsWith("/dashboard") ||
+    location.pathname.startsWith("/proposals") ||
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/settings");
+
+  if (isAuthenticatedRoute) {
+    return null;
+  }
+
+  return <Header />;
 }

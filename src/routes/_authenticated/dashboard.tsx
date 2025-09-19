@@ -40,7 +40,7 @@ function DashboardPage() {
   };
 
   return (
-    <Container size="md" mt={40}>
+    <Container size="md" py="md">
       <Group justify="space-between" mb="xl">
         <Title order={1}>Dashboard</Title>
         <Button

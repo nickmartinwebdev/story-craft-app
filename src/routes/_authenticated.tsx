@@ -1,5 +1,7 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import { useAuth } from "../auth/context";
+import { NavigationLayout } from "../components/NavigationLayout";
+import { ProposalsProvider } from "../contexts/ProposalsContext";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
@@ -27,5 +29,11 @@ function AuthenticatedLayout() {
     });
   }
 
-  return <Outlet />;
+  return (
+    <ProposalsProvider>
+      <NavigationLayout>
+        <Outlet />
+      </NavigationLayout>
+    </ProposalsProvider>
+  );
 }

@@ -17,6 +17,9 @@ import { Route as SigninRouteImport } from './routes/signin'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedTestAuthRouteImport } from './routes/_authenticated/test-auth'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedProposalsRouteImport } from './routes/_authenticated/proposals'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.server-funcs'
@@ -55,6 +58,21 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedTestAuthRoute = AuthenticatedTestAuthRouteImport.update({
   id: '/test-auth',
   path: '/test-auth',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProposalsRoute = AuthenticatedProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -103,6 +121,9 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/proposals': typeof AuthenticatedProposalsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/test-auth': typeof AuthenticatedTestAuthRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -113,6 +134,9 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/proposals': typeof AuthenticatedProposalsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/test-auth': typeof AuthenticatedTestAuthRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -126,6 +150,9 @@ export interface FileRoutesById {
   '/unauthorized': typeof UnauthorizedRoute
   '/_authenticated/_admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/proposals': typeof AuthenticatedProposalsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/test-auth': typeof AuthenticatedTestAuthRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -138,6 +165,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/dashboard'
+    | '/profile'
+    | '/proposals'
+    | '/settings'
     | '/test-auth'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -148,6 +178,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/dashboard'
+    | '/profile'
+    | '/proposals'
+    | '/settings'
     | '/test-auth'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -160,6 +193,9 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/_authenticated/_admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/profile'
+    | '/_authenticated/proposals'
+    | '/_authenticated/settings'
     | '/_authenticated/test-auth'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -265,6 +301,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTestAuthRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/proposals': {
+      id: '/_authenticated/proposals'
+      path: '/proposals'
+      fullPath: '/proposals'
+      preLoaderRoute: typeof AuthenticatedProposalsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -331,12 +388,18 @@ declare module '@tanstack/react-start/server' {
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedProposalsRoute: typeof AuthenticatedProposalsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTestAuthRoute: typeof AuthenticatedTestAuthRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedProposalsRoute: AuthenticatedProposalsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTestAuthRoute: AuthenticatedTestAuthRoute,
 }
 

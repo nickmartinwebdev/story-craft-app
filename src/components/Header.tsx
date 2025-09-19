@@ -51,6 +51,15 @@ export default function Header() {
               Home
             </Button>
 
+            <Button
+              component={Link}
+              to="/proposals"
+              variant="subtle"
+              color="gray"
+            >
+              Proposals
+            </Button>
+
             {isAuthenticated && (
               <Button
                 component={Link}
