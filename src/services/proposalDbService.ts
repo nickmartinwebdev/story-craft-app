@@ -9,6 +9,7 @@ import {
   ProposalFilters,
   ProposalSortOptions,
 } from "../types/proposals";
+import { EnhancedProposal } from "../types/enhanced-proposals";
 
 /**
  * TanStack DB-based storage service for proposals
@@ -243,6 +244,112 @@ export class ProposalDbService {
     title?: string,
   ): Promise<SavedProposal> {
     return await ProposalCollectionService.saveCurrentProposal(messages, title);
+  }
+
+  // Enhanced Proposal specific methods
+
+  // Save enhanced proposal to localStorage
+  async saveEnhancedProposal(proposal: EnhancedProposal): Promise<void> {
+    try {
+      const stored = localStorage.getItem("storycraft-enhanced-proposals");
+      const proposals: EnhancedProposal[] = stored ? JSON.parse(stored) : [];
+
+      const existingIndex = proposals.findIndex((p) => p.id === proposal.id);
+
+      if (existingIndex >= 0) {
+        proposals[existingIndex] = proposal;
+      } else {
+        proposals.push(proposal);
+      }
+
+      localStorage.setItem(
+        "storycraft-enhanced-proposals",
+        JSON.stringify(proposals, (_, value) => {
+          if (value instanceof Date) {
+            return { __type: "Date", value: value.toISOString() };
+          }
+          return value;
+        }),
+      );
+    } catch (error) {
+      console.error("Error saving enhanced proposal:", error);
+      throw new Error("Failed to save enhanced proposal");
+    }
+  }
+
+  // Get all enhanced proposals
+  getAllEnhancedProposals(): EnhancedProposal[] {
+    try {
+      const stored = localStorage.getItem("storycraft-enhanced-proposals");
+      if (!stored) return [];
+
+      const parsed = JSON.parse(stored, (_, value) => {
+        if (value && typeof value === "object" && value.__type === "Date") {
+          return new Date(value.value);
+        }
+        return value;
+      });
+
+      return parsed.map((proposal: any) => ({
+        ...proposal,
+        createdAt:
+          proposal.createdAt instanceof Date
+            ? proposal.createdAt
+            : new Date(proposal.createdAt || Date.now()),
+        updatedAt:
+          proposal.updatedAt instanceof Date
+            ? proposal.updatedAt
+            : new Date(proposal.updatedAt || Date.now()),
+        extractedInformation: {
+          ...proposal.extractedInformation,
+          lastUpdated:
+            proposal.extractedInformation.lastUpdated instanceof Date
+              ? proposal.extractedInformation.lastUpdated
+              : new Date(
+                  proposal.extractedInformation.lastUpdated || Date.now(),
+                ),
+        },
+        generatedContent: {
+          ...proposal.generatedContent,
+          lastGenerated:
+            proposal.generatedContent.lastGenerated instanceof Date
+              ? proposal.generatedContent.lastGenerated
+              : new Date(proposal.generatedContent.lastGenerated || Date.now()),
+        },
+      }));
+    } catch (error) {
+      console.error("Error loading enhanced proposals:", error);
+      return [];
+    }
+  }
+
+  // Get enhanced proposal by ID
+  getEnhancedProposalById(id: string): EnhancedProposal | null {
+    const proposals = this.getAllEnhancedProposals();
+    return proposals.find((p) => p.id === id) || null;
+  }
+
+  // Delete enhanced proposal
+  async deleteEnhancedProposal(id: string): Promise<boolean> {
+    try {
+      const proposals = this.getAllEnhancedProposals();
+      const filteredProposals = proposals.filter((p) => p.id !== id);
+
+      localStorage.setItem(
+        "storycraft-enhanced-proposals",
+        JSON.stringify(filteredProposals, (_, value) => {
+          if (value instanceof Date) {
+            return { __type: "Date", value: value.toISOString() };
+          }
+          return value;
+        }),
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting enhanced proposal:", error);
+      return false;
+    }
   }
 }
 

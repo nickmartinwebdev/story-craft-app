@@ -20,6 +20,7 @@ import { Route as AuthenticatedTestAuthRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedProposalsRouteImport } from './routes/_authenticated/proposals'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedEnhancedProposalsRouteImport } from './routes/_authenticated/enhanced-proposals'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.server-funcs'
@@ -75,6 +76,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedEnhancedProposalsRoute =
+  AuthenticatedEnhancedProposalsRouteImport.update({
+    id: '/enhanced-proposals',
+    path: '/enhanced-proposals',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/enhanced-proposals': typeof AuthenticatedEnhancedProposalsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/proposals': typeof AuthenticatedProposalsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/enhanced-proposals': typeof AuthenticatedEnhancedProposalsRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/proposals': typeof AuthenticatedProposalsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -150,6 +159,7 @@ export interface FileRoutesById {
   '/unauthorized': typeof UnauthorizedRoute
   '/_authenticated/_admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/enhanced-proposals': typeof AuthenticatedEnhancedProposalsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/proposals': typeof AuthenticatedProposalsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/dashboard'
+    | '/enhanced-proposals'
     | '/profile'
     | '/proposals'
     | '/settings'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/unauthorized'
     | '/dashboard'
+    | '/enhanced-proposals'
     | '/profile'
     | '/proposals'
     | '/settings'
@@ -193,6 +205,7 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/_authenticated/_admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/enhanced-proposals'
     | '/_authenticated/profile'
     | '/_authenticated/proposals'
     | '/_authenticated/settings'
@@ -322,6 +335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/enhanced-proposals': {
+      id: '/_authenticated/enhanced-proposals'
+      path: '/enhanced-proposals'
+      fullPath: '/enhanced-proposals'
+      preLoaderRoute: typeof AuthenticatedEnhancedProposalsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -388,6 +408,7 @@ declare module '@tanstack/react-start/server' {
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEnhancedProposalsRoute: typeof AuthenticatedEnhancedProposalsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProposalsRoute: typeof AuthenticatedProposalsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -397,6 +418,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEnhancedProposalsRoute: AuthenticatedEnhancedProposalsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProposalsRoute: AuthenticatedProposalsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,

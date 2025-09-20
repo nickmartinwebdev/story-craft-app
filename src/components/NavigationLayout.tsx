@@ -19,6 +19,7 @@ import {
   IconSettings,
   IconChevronDown,
   IconLogout,
+  IconBrain,
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../auth/context";
@@ -43,6 +44,11 @@ export function NavigationLayout({ children }: NavigationLayoutProps) {
       icon: IconMessageCircle,
       label: "Proposals",
       href: "/proposals",
+    },
+    {
+      icon: IconBrain,
+      label: "Enhanced Proposals",
+      href: "/enhanced-proposals",
     },
     {
       icon: IconUser,
